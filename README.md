@@ -1,59 +1,483 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Gestor ADSO
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Proyecto base desarrollado con Laravel para la gestión de información del proyecto ADSO.
 
-## About Laravel
+Este documento registra la instalación del entorno, creación del proyecto, configuración de MariaDB, ejecución de migraciones, inicialización de Git y las verificaciones realizadas durante el proceso.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 1. Requisitos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Para ejecutar el proyecto se utilizaron las siguientes herramientas:
 
-## Learning Laravel
+- PHP
+- Composer
+- Laravel
+- MariaDB
+- XAMPP
+- Git
+- Navegador web
+- Visual Studio Code
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Las versiones utilizadas pueden consultarse mediante los siguientes comandos:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+php -v
+composer -V
+php artisan --version
+"C:\xampp\mysql\bin\mysql.exe" --version
+git --version
+```
 
-## Laravel Sponsors
+### Evidencia de versiones
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+![Versiones del entorno](capturas/07-versiones.png)
 
-### Premium Partners
+La captura muestra las versiones de las herramientas utilizadas durante la configuración del entorno de desarrollo.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 2. Creación del proyecto
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+El proyecto fue creado utilizando Composer desde la carpeta `Documents`.
 
-## Code of Conduct
+Se ejecutó:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```cmd
+cd %USERPROFILE%\Documents
+composer create-project laravel/laravel gestor-adso
+```
 
-## Security Vulnerabilities
+Después se ingresó a la carpeta del proyecto:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```cmd
+cd gestor-adso
+```
 
-## License
+### Evidencia de creación del proyecto
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![Creación del proyecto Laravel](capturas/01-creacion-proyecto.png)
+
+La captura demuestra que el proyecto `gestor-adso` fue creado correctamente mediante Composer.
+
+---
+
+## 3. Ejecución del servidor local
+
+Una vez creado el proyecto, se inició el servidor de desarrollo de Laravel mediante:
+
+```cmd
+php artisan serve
+```
+
+Laravel indicó la dirección local utilizada para acceder a la aplicación.
+
+### Evidencia del servidor
+
+![Servidor Laravel](capturas/02-servidor-laravel.png)
+
+Esta captura demuestra que el servidor de desarrollo de Laravel fue iniciado correctamente.
+
+---
+
+## 4. Verificación en el navegador
+
+Para comprobar que el proyecto había iniciado correctamente, se abrió en el navegador la dirección:
+
+```text
+http://127.0.0.1:8000
+```
+
+La página inicial de Laravel se mostró correctamente.
+
+### Evidencia de Laravel funcionando
+
+![Página inicial de Laravel](capturas/03-laravel-navegador.png)
+
+Esta captura demuestra que el servidor local estaba funcionando y que el navegador pudo acceder correctamente a la aplicación mediante `127.0.0.1`.
+
+---
+
+## 5. Configuración del archivo `.env`
+
+Se creó el archivo `.env` a partir del archivo `.env.example` mediante:
+
+```cmd
+copy .env.example .env
+```
+
+Posteriormente se generó la clave de la aplicación:
+
+```cmd
+php artisan key:generate
+```
+
+La conexión de Laravel con MariaDB se configuró utilizando los siguientes valores:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=gestor_adso
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+No se incluyen contraseñas ni secretos en este documento.
+
+### Evidencia de configuración
+
+![Configuración del archivo ENV](capturas/04-configuracion-env.png)
+
+La captura demuestra que Laravel fue configurado para utilizar MariaDB mediante MySQL, utilizando `127.0.0.1` como servidor local y el puerto `3306`.
+
+---
+
+## 6. Configuración de MariaDB
+
+Se creó la base de datos `gestor_adso` en MariaDB utilizando XAMPP.
+
+El comando utilizado fue:
+
+```cmd
+"C:\xampp\mysql\bin\mysql.exe" -h 127.0.0.1 -P 3306 -u root -e "CREATE DATABASE gestor_adso CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+La base de datos utilizada por el proyecto es:
+
+```text
+gestor_adso
+```
+
+---
+
+## 7. Limpieza de configuración
+
+Después de modificar el archivo `.env`, se realizó la limpieza de la configuración almacenada por Laravel:
+
+```cmd
+php artisan config:clear
+```
+
+Esto permitió que Laravel utilizara nuevamente los valores configurados en el archivo `.env`.
+
+---
+
+## 8. Migraciones
+
+Una vez configurada la conexión con MariaDB, se ejecutaron las migraciones iniciales:
+
+```cmd
+php artisan migrate
+```
+
+Las migraciones permitieron crear las tablas iniciales necesarias para Laravel.
+
+### Evidencia de las migraciones
+
+![Migraciones Laravel](capturas/05-migraciones.png)
+
+Esta captura demuestra que Laravel pudo conectarse correctamente con MariaDB y ejecutar las migraciones iniciales.
+
+---
+
+## 9. Tablas creadas en MariaDB
+
+Después de ejecutar las migraciones, se verificó la base de datos `gestor_adso`.
+
+La revisión permitió comprobar que las tablas creadas por las migraciones estaban presentes en MariaDB.
+
+### Evidencia de las tablas
+
+![Tablas de MariaDB](capturas/06-tablas-mariadb.png)
+
+Esta captura demuestra que las migraciones fueron aplicadas correctamente y que las tablas fueron creadas dentro de la base de datos `gestor_adso`.
+
+---
+
+## 10. Dificultad técnica encontrada
+
+Durante la creación de la base de datos se presentó un error de sintaxis SQL.
+
+El primer comando utilizado quedó incompleto en la instrucción `COLLATE`, generando el siguiente error:
+
+```text
+ERROR 1064 (42000) at line 1: You have an error in your SQL syntax
+```
+
+El problema fue identificado y el comando se corrigió para completar correctamente la instrucción SQL.
+
+El comando corregido fue:
+
+```cmd
+"C:\xampp\mysql\bin\mysql.exe" -h 127.0.0.1 -P 3306 -u root -e "CREATE DATABASE gestor_adso CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+### Evidencia del error
+
+![Error de MariaDB](capturas/11-error-mariadb.png)
+
+Esta captura demuestra una dificultad técnica real presentada durante la configuración de MariaDB. El error permitió identificar que la instrucción SQL estaba incompleta y posteriormente corregirla.
+
+---
+
+## 11. Verificación del entorno
+
+También se verificó que las herramientas necesarias estuvieran disponibles desde la terminal.
+
+### Verificación de PHP
+
+```cmd
+php -v
+```
+
+Este comando permitió comprobar que PHP estaba instalado y disponible desde la terminal mediante el PATH del sistema.
+
+### Verificación de Composer
+
+```cmd
+composer -V
+```
+
+Este comando permitió comprobar que Composer estaba instalado y disponible para crear y administrar proyectos Laravel.
+
+### Verificación de Laravel
+
+```cmd
+php artisan --version
+```
+
+Este comando permitió comprobar la versión de Laravel instalada en el proyecto.
+
+### Verificación de MariaDB
+
+```cmd
+"C:\xampp\mysql\bin\mysql.exe" --version
+```
+
+Este comando permitió comprobar la versión del cliente de MariaDB proporcionado por XAMPP.
+
+### Verificación de Git
+
+```cmd
+git --version
+```
+
+Este comando permitió comprobar que Git estaba instalado y disponible desde la terminal.
+
+### Evidencia de las versiones
+
+![Versiones del entorno](capturas/07-versiones.png)
+
+Esta captura reúne las versiones de las herramientas utilizadas durante la configuración inicial del proyecto.
+
+---
+
+## 12. Inicialización de Git
+
+Después de completar la configuración inicial del proyecto se inicializó un repositorio Git.
+
+Se ejecutaron los siguientes comandos:
+
+```cmd
+git init
+git add .
+git commit -m "Semana 1: Entorno listo + Laravel base"
+```
+
+### Evidencia del primer commit
+
+![Primer commit](capturas/08-git-commit.png)
+
+Esta captura demuestra que el proyecto fue inicializado como repositorio Git y que se realizó el primer commit con la configuración inicial de Laravel.
+
+---
+
+## 14. Documentación del proyecto
+
+El proyecto cuenta con este archivo `README.md`, donde se documentan los requisitos, instalación, configuración de la base de datos, migraciones y ejecución del servidor.
+
+### Evidencia del README
+
+![README del proyecto](capturas/10-readme.png)
+
+Esta captura demuestra que el proyecto cuenta con documentación para facilitar la instalación y ejecución del entorno.
+
+---
+
+## 15. Estructura de las evidencias
+
+Todas las capturas utilizadas para documentar el proceso se encuentran dentro de la carpeta `capturas`.
+
+La estructura es:
+
+```text
+gestor-adso/
+├── capturas/
+│   ├── 01-creacion-proyecto.png
+│   ├── 02-servidor-laravel.png
+│   ├── 03-laravel-navegador.png
+│   ├── 04-configuracion-env.png
+│   ├── 05-migraciones.png
+│   ├── 06-tablas-mariadb.png
+│   ├── 07-versiones.png
+│   ├── 08-git-commit.png
+│   ├── 10-readme.png
+│   └── 11-error-mariadb.png
+├── .env
+├── .gitignore
+├── artisan
+├── composer.json
+├── composer.lock
+└── README.md
+```
+
+Las capturas están organizadas cronológicamente y cada una cuenta con una explicación que indica qué procedimiento demuestra y cuál fue el resultado obtenido.
+
+---
+
+## 16. Instalación del proyecto
+
+Para instalar el proyecto desde cero se deben seguir estos pasos.
+
+### 1. Crear el proyecto
+
+```cmd
+cd %USERPROFILE%\Documents
+composer create-project laravel/laravel gestor-adso
+```
+
+### 2. Entrar al proyecto
+
+```cmd
+cd gestor-adso
+```
+
+### 3. Crear el archivo `.env`
+
+```cmd
+copy .env.example .env
+```
+
+### 4. Generar la clave de Laravel
+
+```cmd
+php artisan key:generate
+```
+
+### 5. Configurar la base de datos
+
+En el archivo `.env` se deben configurar las siguientes variables:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=gestor_adso
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+La contraseña no se incluye en el README para evitar exponer información sensible.
+
+### 6. Crear la base de datos
+
+```cmd
+"C:\xampp\mysql\bin\mysql.exe" -h 127.0.0.1 -P 3306 -u root -e "CREATE DATABASE gestor_adso CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+### 7. Limpiar la configuración
+
+```cmd
+php artisan config:clear
+```
+
+### 8. Ejecutar las migraciones
+
+```cmd
+php artisan migrate
+```
+
+### 9. Ejecutar el servidor
+
+```cmd
+php artisan serve
+```
+
+Finalmente, se puede acceder al proyecto desde:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+## 17. Variables necesarias del `.env`
+
+Las variables necesarias para la conexión con MariaDB son:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=gestor_adso
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+No se deben publicar contraseñas, claves de aplicación, tokens u otros datos sensibles.
+
+---
+
+## 18. Comandos principales
+
+### Laravel
+
+```cmd
+php artisan serve
+php artisan config:clear
+php artisan migrate
+```
+
+### Composer
+
+```cmd
+composer install
+```
+
+### Git
+
+```cmd
+git init
+git add .
+git commit -m "Semana 1: Entorno listo + Laravel base"
+git status
+git log --oneline -1
+```
+
+---
+
+## 19. Resultado final
+
+Al finalizar el procedimiento se obtuvo un proyecto Laravel llamado `gestor-adso`, ejecutándose mediante el servidor local de Laravel y conectado a una base de datos MariaDB llamada `gestor_adso`.
+
+También se realizaron las migraciones iniciales, se verificaron las tablas creadas y se inicializó un repositorio Git con el primer commit del proyecto.
+
+Las evidencias se encuentran organizadas cronológicamente dentro de la carpeta `capturas/`.
+
+---
+
+## 20. Lista de capturas
+
+| Número | Archivo | Evidencia |
+|---|---|---|
+| 01 | `01-creacion-proyecto.png` | Creación del proyecto mediante Composer |
+| 02 | `02-servidor-laravel.png` | Servidor local de Laravel ejecutándose |
+| 03 | `03-laravel-navegador.png` | Página inicial de Laravel en el navegador |
+| 04 | `04-configuracion-env.png` | Configuración de MariaDB en `.env` |
+| 05 | `05-migraciones.png` | Limpieza de configuración y migraciones |
+| 06 | `06-tablas-mariadb.png` | Tablas creadas en MariaDB |
+| 07 | `07-versiones.png` | Versiones de PHP, Composer, Laravel, MariaDB y Git |
+| 08 | `08-git-commit.png` | Inicialización y primer commit de Git |
+| 10 | `10-readme.png` | Documentación del proyecto |
+| 11 | `11-error-mariadb.png` | Error de MariaDB y posterior corrección |
