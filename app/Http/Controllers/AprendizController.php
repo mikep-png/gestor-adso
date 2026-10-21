@@ -1,13 +1,17 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Models\Aprendiz;
 use Illuminate\Http\Request;
 
 class AprendizController extends Controller
 {
     public function index()
     {
-        return view('aprendices.index');
+        $aprendices = Aprendiz::all();
+
+        return view('aprendices.index', compact('aprendices'));
     }
 
     public function create()
@@ -23,9 +27,15 @@ class AprendizController extends Controller
             'correo' => ['required', 'email', 'max:120'],
         ]);
 
+        Aprendiz::create($request->only([
+            'nombre',
+            'documento',
+            'correo',
+        ]));
+
         return redirect()
             ->route('aprendices.index')
-            ->with('ok', 'Aprendiz recibido (simulado)');
+            ->with('ok', 'Aprendiz creado correctamente');
     }
 
     public function show($id)
@@ -48,4 +58,3 @@ class AprendizController extends Controller
         abort(404);
     }
 }
-
