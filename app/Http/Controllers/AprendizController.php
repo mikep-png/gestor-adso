@@ -9,7 +9,7 @@ class AprendizController extends Controller
 {
     public function index()
     {
-        $aprendices = Aprendiz::all();
+        $aprendices = Aprendiz::paginate(10);
 
         return view('aprendices.index', compact('aprendices'));
     }
@@ -23,8 +23,8 @@ class AprendizController extends Controller
     {
         $request->validate([
             'nombre' => ['required', 'string', 'max:120'],
-            'documento' => ['required', 'string', 'max:40'],
-            'correo' => ['required', 'email', 'max:120'],
+            'documento' => ['required', 'string', 'max:40', 'unique:aprendices,documento'],
+            'correo' => ['required', 'email', 'max:120', 'unique:aprendices,correo'],
         ]);
 
         Aprendiz::create($request->only([

@@ -38,5 +38,6 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $aprendices->links() }}
     @endif
 @endsection
